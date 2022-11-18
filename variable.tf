@@ -5,7 +5,7 @@ variable github_token {
 }
 
 variable harness_github_repo {
-	default="first-repo"
+	default="delegate-template"
 }
 
 variable harness_delegate_template {
