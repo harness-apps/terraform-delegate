@@ -1,15 +1,9 @@
-provider "github" {
-	token = "${var.github_token}"
-}
-
-data "github_repository_file" "harness_delegate_template" {
-	provider   = github
-  	repository          = "${var.harness_github_repo}"
-  	file                = "${var.harness_delegate_template}"
+data "local_file" "harness_delegate" {
+    filename = "harness-delegate.yaml"
 }
 
 resource "local_file" "delegate_name" {
-    content  = "${replace(data.github_repository_file.harness_delegate_template.content,"delegate_name", "${var.name}")}"
+    content  = "${replace(data.local_file.harness_delegate.content,"delegate_name", "${var.name}")}"
     filename = "harness.yaml"
 }
 
