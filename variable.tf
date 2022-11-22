@@ -1,15 +1,5 @@
-variable name {}
-
-variable github_token {
-	default="GITHUB_TOKEN"
-}
-
-variable harness_github_repo {
-	default="delegate-template"
-}
-
-variable harness_delegate_template {
-	default="immutable-harness-delegate.yaml"
+variable name {
+	default="harness-delegate"
 }
 
 variable accountId {
