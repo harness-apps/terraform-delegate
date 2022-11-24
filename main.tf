@@ -65,6 +65,9 @@ resource "local_file" "init_script" {
 }
 
 resource "null_resource" "cluster-login" {
+  triggers = {
+    delegate_name = "${var.name}"
+  }
 
   provisioner "local-exec" {
       command = "kubectl apply -f harness-${var.name}.yaml"
