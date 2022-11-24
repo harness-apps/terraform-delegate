@@ -1,4 +1,7 @@
 resource "null_resource" "get_harness_delegate_template" {
+	triggers = {
+    delegate_name = "${var.name}"
+  }
 	provisioner "local-exec" {
     command = "curl  https://raw.githubusercontent.com/harness-apps/delegate-template/main/harness-delegate.yaml > harness-delegate.yaml"
   }
