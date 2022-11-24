@@ -67,12 +67,6 @@ resource "local_file" "init_script" {
 resource "null_resource" "cluster-login" {
 
   provisioner "local-exec" {
-      command = "gcloud container clusters get-credentials del-play-cluster-pr --zone us-central1-c --project del-play"
-  }
-  provisioner "local-exec" {
       command = "kubectl apply -f harness-${var.name}.yaml"
-  }
-  provisioner "local-exec" {
-      command = "rm harness-${var.name}.yaml"
   }
 }
