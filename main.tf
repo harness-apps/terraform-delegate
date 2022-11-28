@@ -12,6 +12,26 @@ data "local_file" "harness_delegate" {
     filename = "harness-delegate.yaml"
 }
 
+resource "null_resource" "get_delegate_image_tag" {
+	depends_on = [data.local_file.harness_delegate]
+	triggers = {
+    delegate_name = "${var.name}"
+  	}
+	provisioner "local-exec" {
+    command = "curl  https://stress.harness.io/api/version/delegate/immutable/ring4 > image-tag.json"
+  }
+}
+
+data "local_file" "image_tag" {
+	depends_on = [null_resource.get_delegate_image_tag]
+    filename = "image-tag.json"
+}
+
+locals {    
+    response_data = jsondecode(data.local_file.image_tag.content)
+    image_tag = local.response_data.resource
+}
+
 resource "local_file" "delegate_name" {
     content  = "${replace(data.local_file.harness_delegate.content,"delegate_name", "${var.name}")}"
     filename = "harness.yaml"
@@ -48,7 +68,7 @@ resource "local_file" "namespace" {
 }
 
 resource "local_file" "image" {
-    content  = "${replace(resource.local_file.namespace.content,"delegate_image", "${var.image}")}"
+    content  = "${replace(resource.local_file.namespace.content,"delegate_image", local.image_tag)}"
     filename = "harness.yaml"
 }
 
