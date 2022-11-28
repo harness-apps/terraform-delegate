@@ -26,10 +26,6 @@ variable namespace {
 	default="harness-delegate-ng"
 }
 
-variable image {
-	default="IMAGE"
-}
-
 variable memory {
 	default="2048Mi"
 }
